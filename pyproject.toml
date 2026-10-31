@@ -1,0 +1,9 @@
+[project]
+name = "subledger"
+version = "1.0.0"
+description = "Modular SaaS billing backend assignment solution"
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]

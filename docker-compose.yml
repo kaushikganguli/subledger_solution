@@ -1,0 +1,26 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: subledger
+      POSTGRES_USER: subledger
+      POSTGRES_PASSWORD: subledger
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U subledger -d subledger"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql+psycopg://subledger:subledger@db:5432/subledger
+      ENVIRONMENT: docker
+    depends_on:
+      db:
+        condition: service_healthy
+volumes:
+  postgres_data:
